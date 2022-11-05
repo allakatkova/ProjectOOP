@@ -20,6 +20,25 @@ class Student:
         else:
             return 'Ошибка!'
 
+    def __str__(self):
+        result = (f"Имя: {self.name} \n" 
+                  f"Фамилия: {self.surname} \n"
+                  f"Средняя оценка за домашние задания: {self.__calc_average_score(self)} \n"
+                  f"Курсы в процессе изучения: {', '.join(self.courses_in_progress)} \n"
+                  f"Завершенные курсы: {', '.join(self.finished_courses)}")
+        return result
+
+    @staticmethod
+    def __calc_average_score(self):
+        sum_elem = 0
+        count = 0
+        for elem in self.grades.values():
+            for grade in elem:
+                sum_elem += grade
+                count += 1
+        result = sum_elem/count
+        return result
+
 
 class Mentor:
 
@@ -94,8 +113,8 @@ if __name__ == '__main__':
     some_student = Student('Иван', 'Сидоров', 'мужской')
     some_student.finished_courses += ['Git']
     some_student.courses_in_progress += ['Python']
-    some_student.grades['Git'] = [10, 10, 10, 10, 10]
-    some_student.grades['Python'] = [10, 10]
+    some_student.grades['Git'] = [10, 6, 5, 8, 1]
+    some_student.grades['Python'] = [10, 2]
 
     output_info_of_student(some_student)
 
@@ -151,7 +170,7 @@ if __name__ == '__main__':
     print(f"оценка {lecturer_L.grades}")
 
     print()
-    print("------------Task 3------------")
+    print("------------Task 3.1------------")
     print()
 
     print(mentor_C)
@@ -161,3 +180,11 @@ if __name__ == '__main__':
 
     print(lecturer_F)
     print(lecturer_L)
+
+    print()
+
+    print(some_student)
+
+    print()
+    print("------------Task 3.2------------")
+    print()
