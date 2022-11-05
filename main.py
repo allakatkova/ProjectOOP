@@ -10,6 +10,15 @@ class Student:
     def add_courses(self, course_name):
         self.finished_courses.append(course_name)
 
+    def rate_hw_lecturer(self, lecturer, course, grade):
+        if isinstance(lecturer, Lecturer) and course in lecturer.courses_attached:
+            if course in lecturer.grades:
+                lecturer.grades[course] += [grade]
+            else:
+                lecturer.grades[course] = [grade]
+        else:
+            return 'Ошибка!'
+
 
 class Mentor:
 
@@ -21,12 +30,16 @@ class Mentor:
 
 
 class Lecturer(Mentor):
-    pass
+
+    def __init__(self, name, surname):
+        super().__init__(name, surname)
+        self.courses_attached = []
+        self.grades = {}
 
 
 class Reviewer(Mentor):
 
-    def rate_hw(self, student, course, grade):
+    def rate_hw_student(self, student, course, grade):
         if (isinstance(student, Student) and course in self.courses_attached and
                 course in student.courses_in_progress):
             if course in student.grades:
@@ -74,7 +87,24 @@ if __name__ == '__main__':
     print()
 
     some_student.courses_in_progress += ['C#']
-    mentor_C.rate_hw(some_student, 'C#', 10)
-    mentor_P.rate_hw(some_student, 'Python', 10)
+    mentor_C.rate_hw_student(some_student, 'C#', 10)
+    mentor_P.rate_hw_student(some_student, 'Python', 10)
 
     OutputInfoOfStudent(some_student)
+
+    print()
+
+    lecturer_F = Lecturer("Герман", "Якубовский")
+    lecturer_F.courses_attached += ['F#']
+    print(f"Преподаватель {lecturer_F.name} {lecturer_F.surname}, "
+          f"дисциплина {lecturer_F.courses_attached}")
+    some_student.rate_hw_lecturer(lecturer_F, 'F#', 10)
+    print(f"оценка {lecturer_F.grades}")
+
+    lecturer_L = Lecturer("Семен", "Витаков")
+    lecturer_L.courses_attached += ['Web']
+    print(f"Преподаватель {lecturer_L.name} {lecturer_L.surname}, "
+          f"дисциплина {lecturer_L.courses_attached}")
+
+    some_student.rate_hw_lecturer(lecturer_L, 'Web', 8)
+    print(f"оценка {lecturer_L.grades}")
