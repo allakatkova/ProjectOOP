@@ -39,6 +39,12 @@ class Student:
         result = sum_elem/count
         return result
 
+    def __lt__(self, other):
+        if not isinstance(other, Student):
+            print("Объект не принадлежит к классу Student")
+            return
+        return self.__calc_average_score(self) < other.__calc_average_score(other)
+
 
 class Mentor:
 
@@ -72,6 +78,12 @@ class Lecturer(Mentor):
                 count += 1
         result = sum_elem/count
         return result
+
+    def __lt__(self, other):
+        if not isinstance(other, Lecturer):
+            print("Объект не принадлежит к классу Lecturer")
+            return
+        return self.__calc_average_score(self) < other.__calc_average_score(other)
 
 
 class Reviewer(Mentor):
@@ -183,8 +195,15 @@ if __name__ == '__main__':
 
     print()
 
-    print(some_student)
+    print(lecturer_F < lecturer_L)
 
     print()
     print("------------Task 3.2------------")
     print()
+
+    student_for_eval = Student('Петр', 'Вавилов', 'мужской')
+    student_for_eval.courses_in_progress += ['Git']
+    student_for_eval.grades['Git'] = [1, 2, 3, 4, 5]
+    output_info_of_student(student_for_eval)
+
+    print(some_student < student_for_eval)
