@@ -10,7 +10,8 @@ class Student:
     def add_courses(self, course_name):
         self.finished_courses.append(course_name)
 
-    def rate_hw_lecturer(self, lecturer, course, grade):
+    @staticmethod
+    def rate_hw_lecturer(lecturer, course, grade):
         if isinstance(lecturer, Lecturer) and course in lecturer.courses_attached:
             if course in lecturer.grades:
                 lecturer.grades[course] += [grade]
@@ -36,6 +37,23 @@ class Lecturer(Mentor):
         self.courses_attached = []
         self.grades = {}
 
+    def __str__(self):
+        result = (f"Имя: {self.name} \n" 
+                  f"Фамилия: {self.surname} \n"
+                  f"Средняя оценка за лекции: {self.__calc_average_score(self)}")
+        return result
+
+    @staticmethod
+    def __calc_average_score(self):
+        sum_elem = 0
+        count = 0
+        for elem in self.grades.values():
+            for grade in elem:
+                sum_elem += grade
+                count += 1
+        result = sum_elem/count
+        return result
+
 
 class Reviewer(Mentor):
 
@@ -55,11 +73,16 @@ class Reviewer(Mentor):
         return result
 
 
-def OutputInfoOfStudent(student):
+def output_info_of_student(student):
     print(f"Студент {student.name} {student.surname}, пол {student.gender}")
     print(f"Пройденные курсы {student.finished_courses}")
     print(f"Изучаемые курсы {student.courses_in_progress}")
     print(f"Оценки {student.grades}")
+
+
+# Task 4
+def average_score_calculation():
+    pass
 
 
 if __name__ == '__main__':
@@ -74,7 +97,7 @@ if __name__ == '__main__':
     some_student.grades['Git'] = [10, 10, 10, 10, 10]
     some_student.grades['Python'] = [10, 10]
 
-    OutputInfoOfStudent(some_student)
+    output_info_of_student(some_student)
 
     print()
 
@@ -100,7 +123,7 @@ if __name__ == '__main__':
     mentor_C.rate_hw_student(some_student, 'C#', 10)
     mentor_P.rate_hw_student(some_student, 'Python', 10)
 
-    OutputInfoOfStudent(some_student)
+    output_info_of_student(some_student)
 
     print()
     print("------------Task 2------------")
@@ -108,17 +131,23 @@ if __name__ == '__main__':
 
     lecturer_F = Lecturer("Герман", "Якубовский")
     lecturer_F.courses_attached += ['F#']
+    lecturer_F.courses_attached += ['C#']
     print(f"Преподаватель {lecturer_F.name} {lecturer_F.surname}, "
           f"дисциплина {lecturer_F.courses_attached}")
     some_student.rate_hw_lecturer(lecturer_F, 'F#', 10)
+    some_student.rate_hw_lecturer(lecturer_F, 'C#', 6)
     print(f"оценка {lecturer_F.grades}")
 
     lecturer_L = Lecturer("Семен", "Витаков")
     lecturer_L.courses_attached += ['Web']
+    lecturer_L.courses_attached += ['Python']
     print(f"Преподаватель {lecturer_L.name} {lecturer_L.surname}, "
           f"дисциплина {lecturer_L.courses_attached}")
 
     some_student.rate_hw_lecturer(lecturer_L, 'Web', 8)
+    some_student.rate_hw_lecturer(lecturer_L, 'Python', 9)
+    some_student.rate_hw_lecturer(lecturer_L, 'Python', 4)
+    some_student.rate_hw_lecturer(lecturer_L, 'Python', 3)
     print(f"оценка {lecturer_L.grades}")
 
     print()
@@ -127,3 +156,8 @@ if __name__ == '__main__':
 
     print(mentor_C)
     print(mentor_P)
+
+    print()
+
+    print(lecturer_F)
+    print(lecturer_L)
