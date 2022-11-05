@@ -49,6 +49,11 @@ class Reviewer(Mentor):
         else:
             return 'Ошибка!'
 
+    def __str__(self):
+        result = (f"Имя: {self.name} \n" 
+                  f"Фамилия: {self.surname}")
+        return result
+
 
 def OutputInfoOfStudent(student):
     print(f"Студент {student.name} {student.surname}, пол {student.gender}")
@@ -58,6 +63,11 @@ def OutputInfoOfStudent(student):
 
 
 if __name__ == '__main__':
+
+    print()
+    print("------------Task 1------------")
+    print()
+
     some_student = Student('Иван', 'Сидоров', 'мужской')
     some_student.finished_courses += ['Git']
     some_student.courses_in_progress += ['Python']
@@ -93,6 +103,8 @@ if __name__ == '__main__':
     OutputInfoOfStudent(some_student)
 
     print()
+    print("------------Task 2------------")
+    print()
 
     lecturer_F = Lecturer("Герман", "Якубовский")
     lecturer_F.courses_attached += ['F#']
@@ -108,3 +120,10 @@ if __name__ == '__main__':
 
     some_student.rate_hw_lecturer(lecturer_L, 'Web', 8)
     print(f"оценка {lecturer_L.grades}")
+
+    print()
+    print("------------Task 3------------")
+    print()
+
+    print(mentor_C)
+    print(mentor_P)
