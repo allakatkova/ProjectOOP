@@ -138,6 +138,27 @@ def students_average_score_calculation(students_list, course):
                   f"Средняя оценка за ДЗ по {course}: {sum_average}\n")
         print(result)
 
+def lecturers_average_score_calculation(lecturers_list, course):
+    for lecturer in lecturers_list:
+        sum_grades_course = 0
+        count_grades = 0
+        sum_average = 0
+        if isinstance(lecturer, Lecturer) and course in lecturer.grades:
+            lecturer_grades = lecturer.grades[course]
+            for grade in lecturer_grades:
+                sum_grades_course += grade
+                count_grades += 1
+            if count_grades != 0:
+                sum_average = sum_grades_course / count_grades
+            else:
+                sum_average = 0
+        else:
+            result = 0
+        result = (f"Имя: {lecturer.name} \n"
+                  f"Фамилия: {lecturer.surname} \n"
+                  f"Средняя оценка за лекции по {course}: {sum_average}\n")
+        print(result)
+
 
 if __name__ == '__main__':
 
@@ -232,8 +253,15 @@ if __name__ == '__main__':
     print(some_student < student_for_eval)
 
     print()
-    print("------------Task 4------------")
+    print("------------Task 4.1------------")
     print()
 
     students_average_score_calculation([some_student, student_for_eval], 'Python')
     students_average_score_calculation([some_student, student_for_eval], 'Git')
+
+    print()
+    print("------------Task 4.2------------")
+    print()
+
+    lecturers_average_score_calculation([lecturer_F, lecturer_L], 'Python')
+    lecturers_average_score_calculation([lecturer_F, lecturer_L], 'C#')
