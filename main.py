@@ -36,7 +36,10 @@ class Student:
             for grade in elem:
                 sum_elem += grade
                 count += 1
-        result = sum_elem/count
+        if count != 0:
+            result = sum_elem/count
+        else:
+            result = 0
         return result
 
     def __lt__(self, other):
@@ -76,7 +79,10 @@ class Lecturer(Mentor):
             for grade in elem:
                 sum_elem += grade
                 count += 1
-        result = sum_elem/count
+        if count != 0:
+            result = sum_elem/count
+        else:
+            result = 0
         return result
 
     def __lt__(self, other):
@@ -111,9 +117,26 @@ def output_info_of_student(student):
     print(f"Оценки {student.grades}")
 
 
-# Task 4
-def average_score_calculation():
-    pass
+def students_average_score_calculation(students_list, course):
+    for student in students_list:
+        sum_grades_course = 0
+        count_grades = 0
+        sum_average = 0
+        if isinstance(student, Student) and course in student.grades:
+            student_grades = student.grades[course]
+            for grade in student_grades:
+                sum_grades_course += grade
+                count_grades += 1
+            if count_grades != 0:
+                sum_average = sum_grades_course / count_grades
+            else:
+                sum_average = 0
+        else:
+            result = 0
+        result = (f"Имя: {student.name} \n"
+                  f"Фамилия: {student.surname} \n"
+                  f"Средняя оценка за ДЗ по {course}: {sum_average}\n")
+        print(result)
 
 
 if __name__ == '__main__':
@@ -207,3 +230,10 @@ if __name__ == '__main__':
     output_info_of_student(student_for_eval)
 
     print(some_student < student_for_eval)
+
+    print()
+    print("------------Task 4------------")
+    print()
+
+    students_average_score_calculation([some_student, student_for_eval], 'Python')
+    students_average_score_calculation([some_student, student_for_eval], 'Git')
